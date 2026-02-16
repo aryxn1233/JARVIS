@@ -1,0 +1,19 @@
+# Project Dependencies
+# Core HTTP communication (Ollama API)
+requests==2.31.0
+
+# System monitoring
+psutil==5.9.8
+
+# Text-to-Speech (offline)
+pyttsx3==2.90
+
+# Optional: Speech recognition (if you enable voice input later)
+SpeechRecognition==3.10.0
+pyaudio==0.2.13
+
+# Optional: YAML config support (if you expand permissions.yaml)
+PyYAML==6.0.1
+
+# Optional: Rich CLI formatting (if you upgrade interface)
+rich==13.7.1
