@@ -1,1 +1,14 @@
-# Jarvis AI Configuration
+# Jarvis AI — Permission Configuration
+# Defines which intents require user confirmation and which are always blocked.
+
+# Intents that ALWAYS require explicit user confirmation (enforced in permission_manager.py)
+critical_intents:
+  - shutdown
+  - restart
+  - kill_process
+  - modify_firewall
+  - restart_service
+  - delete_files
+  - format_disk
+
+# Future: define role-based access or per-intent timeout settings here

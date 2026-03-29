@@ -1,0 +1,28 @@
+2026-03-30 00:14:04,427 - INFO - Logger initialized.
+2026-03-30 00:14:04,428 - INFO - Memory loaded.
+2026-03-30 00:14:04,428 - INFO - Jarvis initialized.
+2026-03-30 00:14:08,511 - WARNING - Ollama health check failed at startup.
+2026-03-30 00:14:08,978 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\aryxn\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-03-30 00:14:08,978 - INFO - Using writeable comtypes cache directory: 'C:\Users\aryxn\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\comtypes\gen'
+2026-03-30 00:14:12,598 - INFO - TTS Output: Jarvis AI Shell is now online.
+2026-03-30 00:14:22,277 - INFO - Logger initialized.
+2026-03-30 00:14:22,277 - INFO - Memory loaded.
+2026-03-30 00:14:22,278 - INFO - Jarvis initialized.
+2026-03-30 00:14:26,373 - WARNING - Ollama health check failed at startup.
+2026-03-30 00:14:26,428 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\aryxn\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-03-30 00:14:26,428 - INFO - Using writeable comtypes cache directory: 'C:\Users\aryxn\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\comtypes\gen'
+2026-03-30 00:14:29,755 - INFO - TTS Output: Jarvis AI Shell is now online.
+2026-03-30 00:15:22,765 - INFO - Google SR recognized: jarvis check CPU
+2026-03-30 00:15:26,897 - INFO - Ollama connection error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000021966B5AC10>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2026-03-30 00:15:26,897 - INFO - Reasoning model failed to return valid JSON.
+2026-03-30 00:16:17,635 - INFO - TTS Output: Shutting down Jarvis. Goodbye.
+2026-03-30 00:16:17,635 - INFO - Jarvis stopped.
+2026-03-30 00:16:17,636 - INFO - Memory saved.
+2026-03-30 00:24:59,179 - INFO - Logger initialized.
+2026-03-30 00:24:59,180 - INFO - Memory loaded.
+2026-03-30 00:24:59,180 - INFO - Jarvis initialized.
+2026-03-30 00:25:01,309 - INFO - Ollama health check passed.
+2026-03-30 00:25:01,395 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\aryxn\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python313\\site-packages\\comtypes\\gen\\__init__.py'>
+2026-03-30 00:25:01,395 - INFO - Using writeable comtypes cache directory: 'C:\Users\aryxn\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\comtypes\gen'
+2026-03-30 00:25:05,057 - INFO - TTS Output: Jarvis AI Shell is now online.
+2026-03-30 00:25:12,668 - WARNING - Google SR error: 

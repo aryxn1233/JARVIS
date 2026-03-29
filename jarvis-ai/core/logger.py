@@ -7,8 +7,9 @@ import logging
 import os
 from datetime import datetime
 
-
-LOG_DIR = "logs"
+# Use absolute path so logs are always created relative to this file, not CWD
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOG_DIR = os.path.join(BASE_DIR, "logs")
 LOG_FILE = "jarvis.log"
 
 

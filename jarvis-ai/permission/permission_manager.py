@@ -24,18 +24,28 @@ CRITICAL_INTENTS = [
 
 def check_permission(action_plan: dict) -> bool:
     """
-    Returns True if approved.
+    Returns True if the action is approved.
+    Critical intents ALWAYS require confirmation, regardless of SAFE_MODE.
     """
 
     intent = action_plan.get("intent")
     requires_permission = action_plan.get("requires_permission", False)
 
-    # If reasoning model explicitly requires permission
-    if requires_permission or intent in CRITICAL_INTENTS:
-        log_event(f"Permission required for intent: {intent}")
-
+    # CRITICAL intents are ALWAYS gated — even with SAFE_MODE off
+    if intent in CRITICAL_INTENTS:
+        log_event(f"Critical permission required for intent: {intent}")
         approved = ask_permission(intent)
+        if approved:
+            log_event("Permission granted.")
+            return True
+        else:
+            log_event("Permission denied.")
+            return False
 
+    # Non-critical: only gate if reasoning model explicitly flagged it
+    if requires_permission:
+        log_event(f"Permission required for intent: {intent}")
+        approved = ask_permission(intent)
         if approved:
             log_event("Permission granted.")
             return True

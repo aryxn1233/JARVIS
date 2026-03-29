@@ -3,7 +3,9 @@ State Manager
 Maintains live system awareness and contextual state.
 """
 
+import sys
 import psutil
+from datetime import datetime
 from core.logger import log_event
 from core.memory import update_memory
 
@@ -15,6 +17,12 @@ system_state = {
     "active_tasks": [],
     "last_update": None
 }
+
+def _get_disk_path():
+    """Returns the correct root disk path for the current OS."""
+    if sys.platform == "win32":
+        return "C:\\"
+    return "/"
 
 
 # -------------------------------------------------
@@ -29,8 +37,8 @@ def update_system_state():
     try:
         system_state["cpu"] = psutil.cpu_percent(interval=1)
         system_state["ram"] = psutil.virtual_memory().percent
-        system_state["disk"] = psutil.disk_usage('/').percent
-        system_state["last_update"] = psutil.boot_time()
+        system_state["disk"] = psutil.disk_usage(_get_disk_path()).percent
+        system_state["last_update"] = datetime.now().isoformat()  # Fixed: was psutil.boot_time()
 
         log_event("System state updated.")
 
@@ -38,7 +46,7 @@ def update_system_state():
         update_memory("system_state", system_state)
 
     except Exception as e:
-        log_event(f"State update error: {str(e)}")
+        log_event(f"State update error: {str(e)}", level="error")
 
 
 # -------------------------------------------------

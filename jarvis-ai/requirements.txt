@@ -1,19 +1,39 @@
 # Project Dependencies
-# Core HTTP communication (Ollama API)
+
+# Core HTTP communication (Ollama API + Web Search)
 requests==2.31.0
 
-# System monitoring
+# System monitoring (CPU, RAM, disk, processes)
 psutil==5.9.8
 
 # Text-to-Speech (offline)
 pyttsx3==2.90
 
-# Optional: Speech recognition (if you enable voice input later)
+# ── Voice Input ──────────────────────────────────────────────────
+# Option A: Google Speech Recognition (needs internet)
 SpeechRecognition==3.10.0
 pyaudio==0.2.13
 
-# Optional: YAML config support (if you expand permissions.yaml)
+# Option B: Whisper offline voice recognition (no internet needed)
+# Uncomment to enable Whisper:
+# openai-whisper
+# sounddevice
+# soundfile
+# numpy
+
+# ── Config ───────────────────────────────────────────────────────
+# YAML config support
 PyYAML==6.0.1
 
-# Optional: Rich CLI formatting (if you upgrade interface)
+# ── CLI Enhancement ──────────────────────────────────────────────
+# Rich terminal formatting (optional upgrade)
 rich==13.7.1
+
+# ── Testing ──────────────────────────────────────────────────────
+# Run tests with: python -m unittest discover -s tests -v
+# (pytest is optional: pip install pytest)
+
+# ── GUI ──────────────────────────────────────────────────────────
+# tkinter is part of Python's standard library — no install needed
+# Launch GUI: python main.py --gui
+# Or set GUI_MODE = True in config/settings.py

@@ -1,14 +1,14 @@
 """
 System Monitor Module
 Provides real-time CPU, RAM, and Disk monitoring.
+Cross-platform; does NOT prompt user for input from background thread.
 """
 
+import sys
 import psutil
 import threading
 import time
 from core.logger import log_event
-from permission.permission_manager import check_permission
-from executor.command_executor import execute_command
 
 
 # -------------------------------------------------
@@ -23,6 +23,15 @@ MONITOR_INTERVAL = 10   # seconds
 
 monitoring_active = False
 
+# Shared queue for monitor alerts (avoids stdin conflict with main loop)
+_alerts = []
+_alerts_lock = threading.Lock()
+
+
+def _get_disk_path():
+    """Returns the correct root disk path for the current OS."""
+    return "C:\\" if sys.platform == "win32" else "/"
+
 
 # -------------------------------------------------
 # System Snapshot
@@ -35,7 +44,7 @@ def get_system_snapshot():
     return {
         "cpu": psutil.cpu_percent(interval=1),
         "ram": psutil.virtual_memory().percent,
-        "disk": psutil.disk_usage('/').percent
+        "disk": psutil.disk_usage(_get_disk_path()).percent
     }
 
 
@@ -45,64 +54,52 @@ def get_system_snapshot():
 
 def analyze_snapshot(snapshot):
     """
-    Analyzes system metrics and suggests actions.
+    Analyzes system metrics and flags alerts.
     """
 
     if snapshot["cpu"] > CPU_THRESHOLD:
-        log_event(f"High CPU detected: {snapshot['cpu']}%")
+        log_event(f"High CPU detected: {snapshot['cpu']}%", level="warning")
         return {
             "intent": "optimize_cpu",
             "requires_permission": True,
-            "execution_type": "direct"
+            "execution_type": "direct",
+            "alert_message": f"⚠️  High CPU usage detected: {snapshot['cpu']}%. Type 'check cpu' to investigate."
         }
 
     if snapshot["ram"] > RAM_THRESHOLD:
-        log_event(f"High RAM detected: {snapshot['ram']}%")
+        log_event(f"High RAM detected: {snapshot['ram']}%", level="warning")
         return {
             "intent": "optimize_ram",
             "requires_permission": True,
-            "execution_type": "direct"
+            "execution_type": "direct",
+            "alert_message": f"⚠️  High RAM usage detected: {snapshot['ram']}%. Type 'list processes' to investigate."
         }
 
     if snapshot["disk"] > DISK_THRESHOLD:
-        log_event(f"High Disk usage detected: {snapshot['disk']}%")
+        log_event(f"High Disk usage detected: {snapshot['disk']}%", level="warning")
         return {
             "intent": "cleanup_disk",
             "requires_permission": True,
-            "execution_type": "direct"
+            "execution_type": "direct",
+            "alert_message": f"⚠️  High disk usage detected: {snapshot['disk']}%. Type 'check disk' to investigate."
         }
 
     return None
 
 
 # -------------------------------------------------
-# Optimization Handlers
+# Get Pending Alerts (called from main loop)
 # -------------------------------------------------
 
-def handle_optimization(intent):
+def get_pending_alerts():
     """
-    Basic optimization actions.
+    Returns and clears pending monitor alerts.
+    Called from the main loop — safe, no stdin conflict.
     """
-
-    if intent == "optimize_cpu":
-        return execute_command({
-            "intent": "list_processes",
-            "execution_type": "direct"
-        })
-
-    elif intent == "optimize_ram":
-        return execute_command({
-            "intent": "list_processes",
-            "execution_type": "direct"
-        })
-
-    elif intent == "cleanup_disk":
-        return execute_command({
-            "intent": "check_disk",
-            "execution_type": "direct"
-        })
-
-    return "No optimization available."
+    with _alerts_lock:
+        pending = list(_alerts)
+        _alerts.clear()
+    return pending
 
 
 # -------------------------------------------------
@@ -116,18 +113,18 @@ def monitor_loop():
     log_event("System monitor started.")
 
     while monitoring_active:
-        snapshot = get_system_snapshot()
+        try:
+            snapshot = get_system_snapshot()
+            action_plan = analyze_snapshot(snapshot)
 
-        action_plan = analyze_snapshot(snapshot)
+            if action_plan:
+                alert_msg = action_plan.get("alert_message", "")
+                if alert_msg:
+                    with _alerts_lock:
+                        _alerts.append(alert_msg)
 
-        if action_plan:
-            approved = check_permission(action_plan)
-
-            if approved:
-                result = handle_optimization(action_plan["intent"])
-                log_event(f"Optimization executed: {result}")
-            else:
-                log_event("Optimization denied by user.")
+        except Exception as e:
+            log_event(f"Monitor loop error: {str(e)}", level="error")
 
         time.sleep(MONITOR_INTERVAL)
 

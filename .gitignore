@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Logs (keep the folder, ignore content)
+jarvis-ai/logs/*.log
+
+# Secrets / env
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ollama / AI model caches
+*.gguf
+*.ggml
